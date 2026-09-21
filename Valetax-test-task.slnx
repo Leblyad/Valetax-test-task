@@ -1,3 +1,23 @@
 <Solution>
-  <Project Path="Valetax-test-task/Valetax-test-task.csproj" />
+  <Folder Name="/Events/">
+    <Project Path="Events.API/Events.API.csproj" Id="c4bdcb0a-c2c4-4243-986d-6e8f4564ca38" />
+    <Project Path="Events.Application/Events.Application.csproj" Id="40546472-3970-458c-b1d7-f9003bcf8c03" />
+    <Project Path="Events.Domain/Events.Domain.csproj" Id="99ffd1ff-d2cd-4ee1-ad8b-942d83ee2140" />
+    <Project Path="Events.Infrastructure/Events.Infrastructure.csproj" Id="e7c392cd-b679-4914-bc15-0124e251a39a" />
+    <Project Path="Events.Persistence/Events.Persistence.csproj" Id="0ddb589e-ae0c-4106-93b3-bd092b22d123" />
+  </Folder>
+  <Folder Name="/Users/">
+    <Project Path="Users.API/Users.API.csproj" Id="ba4b365e-c42f-46d9-94f4-f236d3f7e50f" />
+    <Project Path="Users.Application/Users.Application.csproj" Id="a6ca9939-9fc4-4724-961a-fb3629385622" />
+    <Project Path="Users.Domain/Users.Domain.csproj" Id="0f76bead-1e87-4e13-9f64-fa4d3d45ebaf" />
+    <Project Path="Users.Infrastructure/Users.Infrastructure.csproj" Id="07185675-11f1-4b4f-a216-fa579604a7c4" />
+    <Project Path="Users.Persistence/Users.Persistence.csproj" Id="39ea4c41-c43c-414e-bc6b-ac9b129edefb" />
+  </Folder>
+  <Folder Name="/Wallets/">
+    <Project Path="Wallets.API/Wallets.API.csproj" Id="b0255fb9-a6ec-4466-be6a-4bd83b3ecd82" />
+    <Project Path="Wallets.Application/Wallets.Application.csproj" Id="5c5ca3d3-a63c-4ac8-a08c-86cceccea124" />
+    <Project Path="Wallets.Domain/Wallets.Domain.csproj" Id="4f97e389-16ba-45a1-a776-67bf4c99f5c9" />
+    <Project Path="Wallets.Infrastructure/Wallets.Infrastructure.csproj" Id="b577077b-30f7-4553-ad52-0f4ffcccb181" />
+    <Project Path="Wallets.Persistence/Wallets.Persistence.csproj" Id="a83f945c-4e34-4b45-b364-8835904be5e5" />
+  </Folder>
 </Solution>
