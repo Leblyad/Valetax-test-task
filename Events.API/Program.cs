@@ -1,23 +1,22 @@
+using Events.API.Extensions;
+using Events.Application.Extensions;
+using Events.Infrastructure.Extensions;
+using Events.Persistence.Extensions;
+using NLog.Web;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Logging.ClearProviders();
+builder.Host.UseNLog();
 
-builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+builder.Services
+    .AddApplication()
+    .AddPersistence(builder.Configuration)
+    .AddInfrastructure()
+    .AddApiServices();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
+app.UseApiPipeline();
 
 app.Run();

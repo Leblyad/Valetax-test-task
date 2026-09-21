@@ -1,0 +1,28 @@
+# syntax=docker/dockerfile:1
+
+FROM mcr.microsoft.com/dotnet/sdk:10.0
+WORKDIR /src
+
+ENV ASPNETCORE_ENVIRONMENT=Development \
+    ASPNETCORE_URLS=http://+:8080 \
+    DOTNET_USE_POLLING_FILE_WATCHER=1 \
+    DOTNET_WATCH_SUPPRESS_LAUNCH_BROWSER=1
+
+EXPOSE 8080
+
+COPY Users.API/Users.API.csproj Users.API/
+COPY Users.Application/Users.Application.csproj Users.Application/
+COPY Users.Domain/Users.Domain.csproj Users.Domain/
+COPY Users.Infrastructure/Users.Infrastructure.csproj Users.Infrastructure/
+COPY Users.Persistence/Users.Persistence.csproj Users.Persistence/
+
+RUN dotnet restore Users.API/Users.API.csproj
+
+COPY Users.API/ Users.API/
+COPY Users.Application/ Users.Application/
+COPY Users.Domain/ Users.Domain/
+COPY Users.Infrastructure/ Users.Infrastructure/
+COPY Users.Persistence/ Users.Persistence/
+
+WORKDIR /src/Users.API
+ENTRYPOINT ["dotnet", "watch", "run", "--no-launch-profile", "--urls", "http://+:8080"]
