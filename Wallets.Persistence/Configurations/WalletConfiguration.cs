@@ -10,18 +10,23 @@ public sealed class WalletConfiguration : IEntityTypeConfiguration<Wallet>
     {
         builder.ToTable("wallets");
 
-        builder.HasKey(x => x.ExternalId);
+        builder.HasKey(x => x.UserExternalId);
 
-        builder.Property(x => x.ExternalId)
+        builder.Property(x => x.UserExternalId)
             .ValueGeneratedNever();
 
         builder.Property(x => x.Balance)
             .HasPrecision(18, 4)
             .IsRequired();
 
+        builder.Property(x => x.SchemaType)
+            .HasConversion<string>()
+            .HasMaxLength(32)
+            .IsRequired();
+
         builder.HasMany(x => x.Commissions)
             .WithOne(x => x.Wallet)
-            .HasForeignKey(x => x.WalletExternalId)
+            .HasForeignKey(x => x.UserExternalId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

@@ -1,6 +1,6 @@
-﻿namespace Events.Domain.Models;
+﻿namespace Events.Application.Dto;
 
-public class Event
+public class EventDto
 {
     public Guid ExternalId { get; set; }
 

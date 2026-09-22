@@ -23,7 +23,7 @@ public sealed class UserConfiguration : IEntityTypeConfiguration<User>
             .HasMaxLength(256)
             .IsRequired();
 
-        builder.HasMany(x => x.Partners)
+        builder.HasMany(x => x.PartnerRelations)
             .WithOne(x => x.User)
             .HasForeignKey(x => x.UserExternalId)
             .OnDelete(DeleteBehavior.Cascade);

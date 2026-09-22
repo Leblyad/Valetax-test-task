@@ -4,4 +4,8 @@ namespace Wallets.Application.Interfaces.Repositories;
 
 public interface IWalletRepository : IRepositoryBase<Wallet>
 {
+    Task<Wallet?> GetByUserExternalIdAsync(
+        Guid userExternalId,
+        bool trackChanges,
+        CancellationToken cancellationToken = default);
 }

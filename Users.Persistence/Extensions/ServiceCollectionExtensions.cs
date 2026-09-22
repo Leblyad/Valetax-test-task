@@ -17,7 +17,7 @@ public static class ServiceCollectionExtensions
             options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
         services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<IPartnerRepository, PartnerRepository>();
+        services.AddScoped<IPartnerRelationRepository, PartnerRelationRepository>();
         services.AddScoped<IRepositoryManager, RepositoryManager>();
 
         return services;

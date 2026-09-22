@@ -10,16 +10,16 @@ public class RepositoryManager : IRepositoryManager
     public RepositoryManager(
         RepositoryContext repositoryContext,
         IUserRepository userRepository,
-        IPartnerRepository partnerRepository)
+        IPartnerRelationRepository partnerRelationRepository)
     {
         _repositoryContext = repositoryContext;
         User = userRepository;
-        Partner = partnerRepository;
+        PartnerRelation = partnerRelationRepository;
     }
 
     public IUserRepository User { get; }
 
-    public IPartnerRepository Partner { get; }
+    public IPartnerRelationRepository PartnerRelation { get; }
 
     public Task SaveAsync(CancellationToken cancellationToken = default) =>
         _repositoryContext.SaveChangesAsync(cancellationToken);

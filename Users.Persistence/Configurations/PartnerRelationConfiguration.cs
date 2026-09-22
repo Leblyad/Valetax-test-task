@@ -4,11 +4,11 @@ using Users.Domain.Models;
 
 namespace Users.Persistence.Configurations;
 
-public sealed class PartnerConfiguration : IEntityTypeConfiguration<Partner>
+public sealed class PartnerRelationConfiguration : IEntityTypeConfiguration<PartnerRelation>
 {
-    public void Configure(EntityTypeBuilder<Partner> builder)
+    public void Configure(EntityTypeBuilder<PartnerRelation> builder)
     {
-        builder.ToTable("partners");
+        builder.ToTable("partner_relations");
 
         builder.HasKey(x => new { x.UserExternalId, x.Level });
 

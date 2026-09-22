@@ -4,7 +4,7 @@ public interface IRepositoryManager
 {
     IUserRepository User { get; }
 
-    IPartnerRepository Partner { get; }
+    IPartnerRelationRepository PartnerRelation { get; }
 
     Task SaveAsync(CancellationToken cancellationToken = default);
 }

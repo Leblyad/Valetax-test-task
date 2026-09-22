@@ -10,15 +10,12 @@ public sealed class CommissionConfiguration : IEntityTypeConfiguration<Commissio
     {
         builder.ToTable("commissions");
 
-        builder.HasKey(x => x.ExternalId);
-
-        builder.Property(x => x.ExternalId)
-            .ValueGeneratedNever();
+        builder.HasKey(x => new { x.EventExternalId, x.UserExternalId });
 
         builder.Property(x => x.EventExternalId)
             .IsRequired();
 
-        builder.Property(x => x.WalletExternalId)
+        builder.Property(x => x.UserExternalId)
             .IsRequired();
 
         builder.Property(x => x.SchemaType)
@@ -34,9 +31,9 @@ public sealed class CommissionConfiguration : IEntityTypeConfiguration<Commissio
             .IsRequired();
 
         builder.Property(x => x.PaidAt)
-            .IsRequired();
+            .IsRequired(false);
 
-        builder.HasIndex(x => x.EventExternalId);
+        builder.HasIndex(x => x.UserExternalId);
 
         builder.HasIndex(x => new { x.EventExternalId, x.Level })
             .IsUnique();

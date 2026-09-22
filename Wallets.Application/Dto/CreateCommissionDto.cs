@@ -1,8 +1,8 @@
 ﻿using SharedModels.Enums;
 
-namespace Wallets.Domain.Models;
+namespace Wallets.Application.Dto;
 
-public class Commission
+public class CreateCommissionDto
 {
     public Guid EventExternalId { get; set; }
 
@@ -15,6 +15,4 @@ public class Commission
     public int Level { get; set; }
 
     public DateTime? PaidAt { get; set; }
-
-    public Wallet Wallet { get; set; }
 }

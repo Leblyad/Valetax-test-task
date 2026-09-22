@@ -7,7 +7,7 @@ public class RepositoryContext(DbContextOptions<RepositoryContext> options) : Db
 {
     public DbSet<User> Users => Set<User>();
 
-    public DbSet<Partner> Partners => Set<Partner>();
+    public DbSet<PartnerRelation> PartnerRelations => Set<PartnerRelation>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -1,8 +1,8 @@
 ﻿using SharedModels.Enums;
 
-namespace Wallets.Domain.Models;
+namespace Wallets.Application.Dto;
 
-public class Wallet
+public class WalletWithCommissionsDto
 {
     public Guid UserExternalId { get; set; }
 
@@ -10,5 +10,5 @@ public class Wallet
 
     public SchemaType SchemaType { get; set; }
 
-    public List<Commission> Commissions { get; set; }
+    public List<CommissionDto> Commissions { get; set; }
 }
