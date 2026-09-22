@@ -16,6 +16,7 @@ public class PartnerRelationRepository : RepositoryBase<PartnerRelation>, IPartn
         bool trackChanges,
         CancellationToken cancellationToken = default) =>
         await FindByCondition(r => r.UserExternalId == userExternalId, trackChanges)
+            .Include(r => r.PartnerUser)
             .OrderBy(r => r.Level)
             .ToListAsync(cancellationToken);
 
@@ -24,6 +25,7 @@ public class PartnerRelationRepository : RepositoryBase<PartnerRelation>, IPartn
         bool trackChanges,
         CancellationToken cancellationToken = default) =>
         await FindByCondition(r => r.PartnerExternalId == partnerExternalId, trackChanges)
+            .Include(r => r.User)
             .OrderBy(r => r.Level)
             .ToListAsync(cancellationToken);
 

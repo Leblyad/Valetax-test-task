@@ -1,13 +1,21 @@
+using SharedModels.Metrics;
+using Wallets.Persistence.Extensions;
+
 namespace Wallets.API.Extensions;
 
 public static class ApplicationBuilderExtensions
 {
     public static WebApplication UseApiPipeline(this WebApplication app)
     {
-        if (app.Environment.IsDevelopment())
+        app.Services.ApplyMigrations();
+        app.UseExceptionHandler();
+        app.UseMiddleware<RequestMetricsMiddleware>();
+
+        app.UseSwagger();
+        app.UseSwaggerUI(options =>
         {
-            app.MapOpenApi();
-        }
+            options.SwaggerEndpoint("/swagger/v1/swagger.json", "Wallets API v1");
+        });
 
         app.UseHttpsRedirection();
         app.MapHealthChecks("/health");

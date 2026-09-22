@@ -21,4 +21,5 @@
     <Project Path="Wallets.Persistence/Wallets.Persistence.csproj" Id="a83f945c-4e34-4b45-b364-8835904be5e5" />
   </Folder>
   <Project Path="SharedModels/SharedModels.csproj" />
+  <Project Path="Wallets.Application.Tests/Wallets.Application.Tests.csproj" />
 </Solution>

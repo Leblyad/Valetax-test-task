@@ -7,6 +7,8 @@ public class RepositoryContext(DbContextOptions<RepositoryContext> options) : Db
 {
     public DbSet<Event> Events => Set<Event>();
 
+    public DbSet<OutboxMessage> OutboxMessages => Set<OutboxMessage>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

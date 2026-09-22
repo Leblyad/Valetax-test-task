@@ -1,0 +1,246 @@
+{
+  "info": {
+    "_postman_id": "b7e2c1a0-4d5e-4f8a-9c3b-valetax001",
+    "name": "Valetax Partner Commissions",
+    "description": "End-to-end collection for Users / Events / Wallets.\n\nSuggested flow:\n1. Health checks\n2. Create Alice, Bob, Carol\n3. Set partner relations Bob→Alice, Carol→Bob\n4. Create profit event for Carol\n5. Wait a few seconds for outbox\n6. Check wallets / commissions / payouts",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "usersUrl", "value": "http://localhost:5111" },
+    { "key": "eventsUrl", "value": "http://localhost:5164" },
+    { "key": "walletsUrl", "value": "http://localhost:5174" },
+    { "key": "aliceId", "value": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa" },
+    { "key": "bobId", "value": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb" },
+    { "key": "carolId", "value": "cccccccc-cccc-cccc-cccc-cccccccccccc" },
+    { "key": "eventId", "value": "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee" }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Users health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{usersUrl}}/health"
+          }
+        },
+        {
+          "name": "Events health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{eventsUrl}}/health"
+          }
+        },
+        {
+          "name": "Wallets health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{walletsUrl}}/health"
+          }
+        }
+      ]
+    },
+    {
+      "name": "1. Users",
+      "item": [
+        {
+          "name": "Create Alice (Linear)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"externalId\": \"{{aliceId}}\",\n  \"email\": \"alice@valetax.local\",\n  \"name\": \"Alice\",\n  \"schemaType\": \"Linear\"\n}"
+            },
+            "url": "{{usersUrl}}/api/users"
+          }
+        },
+        {
+          "name": "Create Bob (Linear)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"externalId\": \"{{bobId}}\",\n  \"email\": \"bob@valetax.local\",\n  \"name\": \"Bob\",\n  \"schemaType\": \"Linear\"\n}"
+            },
+            "url": "{{usersUrl}}/api/users"
+          }
+        },
+        {
+          "name": "Create Carol (Fibonacci)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"externalId\": \"{{carolId}}\",\n  \"email\": \"carol@valetax.local\",\n  \"name\": \"Carol\",\n  \"schemaType\": \"Fibonacci\"\n}"
+            },
+            "url": "{{usersUrl}}/api/users"
+          }
+        },
+        {
+          "name": "Get Carol",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{usersUrl}}/api/users/{{carolId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Partner relations",
+      "item": [
+        {
+          "name": "Set Bob partner = Alice",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userExternalId\": \"{{bobId}}\",\n  \"partnerExternalId\": \"{{aliceId}}\"\n}"
+            },
+            "url": "{{usersUrl}}/api/partner-relations"
+          }
+        },
+        {
+          "name": "Set Carol partner = Bob",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userExternalId\": \"{{carolId}}\",\n  \"partnerExternalId\": \"{{bobId}}\"\n}"
+            },
+            "url": "{{usersUrl}}/api/partner-relations"
+          }
+        },
+        {
+          "name": "Get Carol partners",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{usersUrl}}/api/partner-relations/user/{{carolId}}"
+          }
+        },
+        {
+          "name": "Get Alice referrals",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{usersUrl}}/api/partner-relations/referrals/{{aliceId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Events",
+      "item": [
+        {
+          "name": "Create Carol profit event 1000",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"externalId\": \"{{eventId}}\",\n  \"userExternalId\": \"{{carolId}}\",\n  \"profit\": 1000,\n  \"createdAt\": \"2026-01-01T00:00:00Z\"\n}"
+            },
+            "url": "{{eventsUrl}}/api/events",
+            "description": "After create, wait ~2-5s for outbox to call Wallets."
+          }
+        },
+        {
+          "name": "Get event by id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{eventsUrl}}/api/events/{{eventId}}"
+          }
+        },
+        {
+          "name": "Get Carol events",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{eventsUrl}}/api/events/user/{{carolId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Wallets & commissions",
+      "item": [
+        {
+          "name": "Get Alice wallet",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{walletsUrl}}/api/wallets/{{aliceId}}"
+          }
+        },
+        {
+          "name": "Get Bob wallet",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{walletsUrl}}/api/wallets/{{bobId}}"
+          }
+        },
+        {
+          "name": "Get Carol wallet",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{walletsUrl}}/api/wallets/{{carolId}}"
+          }
+        },
+        {
+          "name": "Get commissions by event",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{walletsUrl}}/api/commissions/event/{{eventId}}"
+          }
+        },
+        {
+          "name": "Get Alice payouts",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{walletsUrl}}/api/wallets/{{aliceId}}/payouts"
+          }
+        },
+        {
+          "name": "Set Bob schema Fibonacci",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "\"Fibonacci\""
+            },
+            "url": "{{walletsUrl}}/api/wallets/{{bobId}}/schema"
+          }
+        },
+        {
+          "name": "Process event (direct, optional)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"eventExternalId\": \"{{eventId}}\",\n  \"userExternalId\": \"{{carolId}}\",\n  \"profit\": 1000\n}"
+            },
+            "url": "{{walletsUrl}}/api/commissions/process",
+            "description": "Normally called by Events outbox. Safe to retry (idempotent)."
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -10,5 +10,5 @@ public class UserDto
 
     public List<UserDto> Partners { get; set; }
 
-    public List<UserDto> Referals { get; set; }
+    public List<UserDto> Referrals { get; set; }
 }

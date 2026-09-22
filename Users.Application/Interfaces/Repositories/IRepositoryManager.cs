@@ -6,5 +6,7 @@ public interface IRepositoryManager
 
     IPartnerRelationRepository PartnerRelation { get; }
 
+    IOutboxRepository Outbox { get; }
+
     Task SaveAsync(CancellationToken cancellationToken = default);
 }

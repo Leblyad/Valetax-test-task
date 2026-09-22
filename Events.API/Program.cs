@@ -12,8 +12,8 @@ builder.Host.UseNLog();
 builder.Services
     .AddApplication()
     .AddPersistence(builder.Configuration)
-    .AddInfrastructure()
-    .AddApiServices();
+    .AddInfrastructure(builder.Configuration)
+    .AddApiServices(builder.Configuration);
 
 var app = builder.Build();
 

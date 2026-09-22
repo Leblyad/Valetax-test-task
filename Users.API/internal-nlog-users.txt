@@ -1,0 +1,12 @@
+2026-09-22 22:22:19.4828 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2026-09-22 22:22:19.4828 Info Registered target NLog.Targets.FileTarget(Name=file)
+2026-09-22 22:22:19.4912 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.2.1.5860. Product version: 6.2.1+b058028290f245d12c30cb2910c2a574558ed9c6. GlobalAssemblyCache: False
+2026-09-22 22:22:19.4912 Info Configuration initialized: TargetNames=console, file, ConfigItems=25, AutoReload=true, FilePath=C:\Users\apk59\source\repos\Valetax-test-task\Users.API\nlog.config
+2026-09-22 22:23:57.6574 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2026-09-22 22:23:57.6574 Info Registered target NLog.Targets.FileTarget(Name=file)
+2026-09-22 22:23:57.6637 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.2.1.5860. Product version: 6.2.1+b058028290f245d12c30cb2910c2a574558ed9c6. GlobalAssemblyCache: False
+2026-09-22 22:23:57.6772 Info Configuration initialized: TargetNames=console, file, ConfigItems=25, AutoReload=true, FilePath=C:\Users\apk59\source\repos\Valetax-test-task\Users.API\nlog.config
+2026-09-22 23:14:12.0704 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2026-09-22 23:14:12.0704 Info Registered target NLog.Targets.FileTarget(Name=file)
+2026-09-22 23:14:12.0704 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.2.1.5860. Product version: 6.2.1+b058028290f245d12c30cb2910c2a574558ed9c6. GlobalAssemblyCache: False
+2026-09-22 23:14:12.0918 Info Configuration initialized: TargetNames=console, file, ConfigItems=36, AutoReload=true, FilePath=C:\Users\apk59\source\repos\Valetax-test-task\Users.API\nlog.config

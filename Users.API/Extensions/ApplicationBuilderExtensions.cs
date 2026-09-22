@@ -1,13 +1,21 @@
+using SharedModels.Metrics;
+using Users.Persistence.Extensions;
+
 namespace Users.API.Extensions;
 
 public static class ApplicationBuilderExtensions
 {
     public static WebApplication UseApiPipeline(this WebApplication app)
     {
-        if (app.Environment.IsDevelopment())
+        app.Services.ApplyMigrations();
+        app.UseExceptionHandler();
+        app.UseMiddleware<RequestMetricsMiddleware>();
+
+        app.UseSwagger();
+        app.UseSwaggerUI(options =>
         {
-            app.MapOpenApi();
-        }
+            options.SwaggerEndpoint("/swagger/v1/swagger.json", "Users API v1");
+        });
 
         app.UseHttpsRedirection();
         app.MapHealthChecks("/health");

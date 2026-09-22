@@ -9,13 +9,17 @@ public class RepositoryManager : IRepositoryManager
 
     public RepositoryManager(
         RepositoryContext repositoryContext,
-        IEventRepository eventRepository)
+        IEventRepository eventRepository,
+        IOutboxRepository outboxRepository)
     {
         _repositoryContext = repositoryContext;
         Event = eventRepository;
+        Outbox = outboxRepository;
     }
 
     public IEventRepository Event { get; }
+
+    public IOutboxRepository Outbox { get; }
 
     public Task SaveAsync(CancellationToken cancellationToken = default) =>
         _repositoryContext.SaveChangesAsync(cancellationToken);

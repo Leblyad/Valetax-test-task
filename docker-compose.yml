@@ -1,0 +1,88 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: valetax-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  users-api:
+    build:
+      context: .
+      dockerfile: Users.API/Dockerfile
+    container_name: valetax-users-api
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__DefaultConnection: Host=postgres;Port=5432;Database=users_db;Username=postgres;Password=postgres
+      Services__Wallets__BaseUrl: http://wallets-api:8080
+      Services__Wallets__TimeoutSeconds: "30"
+      Outbox__PollIntervalSeconds: "2"
+      Outbox__BatchSize: "20"
+      Outbox__MaxAttempts: "10"
+      Metrics__LogIntervalSeconds: "30"
+    ports:
+      - "5111:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      wallets-api:
+        condition: service_started
+    restart: unless-stopped
+
+  events-api:
+    build:
+      context: .
+      dockerfile: Events.API/Dockerfile
+    container_name: valetax-events-api
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__DefaultConnection: Host=postgres;Port=5432;Database=events_db;Username=postgres;Password=postgres
+      Services__Wallets__BaseUrl: http://wallets-api:8080
+      Services__Wallets__TimeoutSeconds: "30"
+      Outbox__PollIntervalSeconds: "2"
+      Outbox__BatchSize: "20"
+      Outbox__MaxAttempts: "10"
+      Metrics__LogIntervalSeconds: "30"
+    ports:
+      - "5164:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      wallets-api:
+        condition: service_started
+    restart: unless-stopped
+
+  wallets-api:
+    build:
+      context: .
+      dockerfile: Wallets.API/Dockerfile
+    container_name: valetax-wallets-api
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__DefaultConnection: Host=postgres;Port=5432;Database=wallets_db;Username=postgres;Password=postgres
+      Services__Users__BaseUrl: http://users-api:8080
+      Services__Users__TimeoutSeconds: "30"
+      Metrics__LogIntervalSeconds: "30"
+    ports:
+      - "5174:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

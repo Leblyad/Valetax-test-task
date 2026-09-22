@@ -1,0 +1,8 @@
+2026-09-22 22:22:48.2911 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2026-09-22 22:22:48.2911 Info Registered target NLog.Targets.FileTarget(Name=file)
+2026-09-22 22:22:48.2911 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.2.1.5860. Product version: 6.2.1+b058028290f245d12c30cb2910c2a574558ed9c6. GlobalAssemblyCache: False
+2026-09-22 22:22:48.3106 Info Configuration initialized: TargetNames=console, file, ConfigItems=25, AutoReload=true, FilePath=C:\Users\apk59\source\repos\Valetax-test-task\Wallets.API\nlog.config
+2026-09-22 22:24:20.9064 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2026-09-22 22:24:20.9064 Info Registered target NLog.Targets.FileTarget(Name=file)
+2026-09-22 22:24:20.9159 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.2.1.5860. Product version: 6.2.1+b058028290f245d12c30cb2910c2a574558ed9c6. GlobalAssemblyCache: False
+2026-09-22 22:24:20.9318 Info Configuration initialized: TargetNames=console, file, ConfigItems=25, AutoReload=true, FilePath=C:\Users\apk59\source\repos\Valetax-test-task\Wallets.API\nlog.config

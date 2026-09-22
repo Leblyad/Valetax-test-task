@@ -7,6 +7,7 @@ EXPOSE 8080
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 
+COPY SharedModels/SharedModels.csproj SharedModels/
 COPY Wallets.API/Wallets.API.csproj Wallets.API/
 COPY Wallets.Application/Wallets.Application.csproj Wallets.Application/
 COPY Wallets.Domain/Wallets.Domain.csproj Wallets.Domain/
@@ -15,6 +16,7 @@ COPY Wallets.Persistence/Wallets.Persistence.csproj Wallets.Persistence/
 
 RUN dotnet restore Wallets.API/Wallets.API.csproj
 
+COPY SharedModels/ SharedModels/
 COPY Wallets.API/ Wallets.API/
 COPY Wallets.Application/ Wallets.Application/
 COPY Wallets.Domain/ Wallets.Domain/

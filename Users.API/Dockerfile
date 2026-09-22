@@ -7,6 +7,7 @@ EXPOSE 8080
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 
+COPY SharedModels/SharedModels.csproj SharedModels/
 COPY Users.API/Users.API.csproj Users.API/
 COPY Users.Application/Users.Application.csproj Users.Application/
 COPY Users.Domain/Users.Domain.csproj Users.Domain/
@@ -15,6 +16,7 @@ COPY Users.Persistence/Users.Persistence.csproj Users.Persistence/
 
 RUN dotnet restore Users.API/Users.API.csproj
 
+COPY SharedModels/ SharedModels/
 COPY Users.API/ Users.API/
 COPY Users.Application/ Users.Application/
 COPY Users.Domain/ Users.Domain/

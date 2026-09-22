@@ -17,8 +17,16 @@ public static class ServiceCollectionExtensions
             options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
         services.AddScoped<IEventRepository, EventRepository>();
+        services.AddScoped<IOutboxRepository, OutboxRepository>();
         services.AddScoped<IRepositoryManager, RepositoryManager>();
 
         return services;
+    }
+
+    public static void ApplyMigrations(this IServiceProvider services)
+    {
+        using var scope = services.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<RepositoryContext>();
+        context.Database.Migrate();
     }
 }

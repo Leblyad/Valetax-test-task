@@ -7,6 +7,7 @@ EXPOSE 8080
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 
+COPY SharedModels/SharedModels.csproj SharedModels/
 COPY Events.API/Events.API.csproj Events.API/
 COPY Events.Application/Events.Application.csproj Events.Application/
 COPY Events.Domain/Events.Domain.csproj Events.Domain/
@@ -15,6 +16,7 @@ COPY Events.Persistence/Events.Persistence.csproj Events.Persistence/
 
 RUN dotnet restore Events.API/Events.API.csproj
 
+COPY SharedModels/ SharedModels/
 COPY Events.API/ Events.API/
 COPY Events.Application/ Events.Application/
 COPY Events.Domain/ Events.Domain/

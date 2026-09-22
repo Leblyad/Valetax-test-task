@@ -1,13 +1,21 @@
+using Events.Persistence.Extensions;
+using SharedModels.Metrics;
+
 namespace Events.API.Extensions;
 
 public static class ApplicationBuilderExtensions
 {
     public static WebApplication UseApiPipeline(this WebApplication app)
     {
-        if (app.Environment.IsDevelopment())
+        app.Services.ApplyMigrations();
+        app.UseExceptionHandler();
+        app.UseMiddleware<RequestMetricsMiddleware>();
+
+        app.UseSwagger();
+        app.UseSwaggerUI(options =>
         {
-            app.MapOpenApi();
-        }
+            options.SwaggerEndpoint("/swagger/v1/swagger.json", "Events API v1");
+        });
 
         app.UseHttpsRedirection();
         app.MapHealthChecks("/health");

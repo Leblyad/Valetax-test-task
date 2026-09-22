@@ -22,4 +22,11 @@ public static class ServiceCollectionExtensions
 
         return services;
     }
+
+    public static void ApplyMigrations(this IServiceProvider services)
+    {
+        using var scope = services.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<RepositoryContext>();
+        context.Database.Migrate();
+    }
 }
