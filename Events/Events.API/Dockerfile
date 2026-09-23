@@ -8,22 +8,22 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 
 COPY SharedModels/SharedModels.csproj SharedModels/
-COPY Events.API/Events.API.csproj Events.API/
-COPY Events.Application/Events.Application.csproj Events.Application/
-COPY Events.Domain/Events.Domain.csproj Events.Domain/
-COPY Events.Infrastructure/Events.Infrastructure.csproj Events.Infrastructure/
-COPY Events.Persistence/Events.Persistence.csproj Events.Persistence/
+COPY Events/Events.API/Events.API.csproj Events/Events.API/
+COPY Events/Events.Application/Events.Application.csproj Events/Events.Application/
+COPY Events/Events.Domain/Events.Domain.csproj Events/Events.Domain/
+COPY Events/Events.Infrastructure/Events.Infrastructure.csproj Events/Events.Infrastructure/
+COPY Events/Events.Persistence/Events.Persistence.csproj Events/Events.Persistence/
 
-RUN dotnet restore Events.API/Events.API.csproj
+RUN dotnet restore Events/Events.API/Events.API.csproj
 
 COPY SharedModels/ SharedModels/
-COPY Events.API/ Events.API/
-COPY Events.Application/ Events.Application/
-COPY Events.Domain/ Events.Domain/
-COPY Events.Infrastructure/ Events.Infrastructure/
-COPY Events.Persistence/ Events.Persistence/
+COPY Events/Events.API/ Events/Events.API/
+COPY Events/Events.Application/ Events/Events.Application/
+COPY Events/Events.Domain/ Events/Events.Domain/
+COPY Events/Events.Infrastructure/ Events/Events.Infrastructure/
+COPY Events/Events.Persistence/ Events/Events.Persistence/
 
-RUN dotnet publish Events.API/Events.API.csproj -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish Events/Events.API/Events.API.csproj -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app

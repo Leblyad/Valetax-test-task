@@ -2,7 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Events.Domain\Events.Domain.csproj" />
-    <ProjectReference Include="..\SharedModels\SharedModels.csproj" />
+    <ProjectReference Include="..\..\SharedModels\SharedModels.csproj" />
   </ItemGroup>
 
   <ItemGroup>

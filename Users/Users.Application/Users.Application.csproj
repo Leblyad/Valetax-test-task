@@ -2,7 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Users.Domain\Users.Domain.csproj" />
-    <ProjectReference Include="..\SharedModels\SharedModels.csproj" />
+    <ProjectReference Include="..\..\SharedModels\SharedModels.csproj" />
   </ItemGroup>
 
   <ItemGroup>

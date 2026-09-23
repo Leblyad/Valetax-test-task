@@ -8,22 +8,22 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 
 COPY SharedModels/SharedModels.csproj SharedModels/
-COPY Wallets.API/Wallets.API.csproj Wallets.API/
-COPY Wallets.Application/Wallets.Application.csproj Wallets.Application/
-COPY Wallets.Domain/Wallets.Domain.csproj Wallets.Domain/
-COPY Wallets.Infrastructure/Wallets.Infrastructure.csproj Wallets.Infrastructure/
-COPY Wallets.Persistence/Wallets.Persistence.csproj Wallets.Persistence/
+COPY Wallets/Wallets.API/Wallets.API.csproj Wallets/Wallets.API/
+COPY Wallets/Wallets.Application/Wallets.Application.csproj Wallets/Wallets.Application/
+COPY Wallets/Wallets.Domain/Wallets.Domain.csproj Wallets/Wallets.Domain/
+COPY Wallets/Wallets.Infrastructure/Wallets.Infrastructure.csproj Wallets/Wallets.Infrastructure/
+COPY Wallets/Wallets.Persistence/Wallets.Persistence.csproj Wallets/Wallets.Persistence/
 
-RUN dotnet restore Wallets.API/Wallets.API.csproj
+RUN dotnet restore Wallets/Wallets.API/Wallets.API.csproj
 
 COPY SharedModels/ SharedModels/
-COPY Wallets.API/ Wallets.API/
-COPY Wallets.Application/ Wallets.Application/
-COPY Wallets.Domain/ Wallets.Domain/
-COPY Wallets.Infrastructure/ Wallets.Infrastructure/
-COPY Wallets.Persistence/ Wallets.Persistence/
+COPY Wallets/Wallets.API/ Wallets/Wallets.API/
+COPY Wallets/Wallets.Application/ Wallets/Wallets.Application/
+COPY Wallets/Wallets.Domain/ Wallets/Wallets.Domain/
+COPY Wallets/Wallets.Infrastructure/ Wallets/Wallets.Infrastructure/
+COPY Wallets/Wallets.Persistence/ Wallets/Wallets.Persistence/
 
-RUN dotnet publish Wallets.API/Wallets.API.csproj -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish Wallets/Wallets.API/Wallets.API.csproj -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app

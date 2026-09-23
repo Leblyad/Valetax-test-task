@@ -20,7 +20,7 @@ services:
   users-api:
     build:
       context: .
-      dockerfile: Users.API/Dockerfile.dev
+      dockerfile: Users/Users.API/Dockerfile.dev
     container_name: valetax-users-api-dev
     environment:
       ASPNETCORE_ENVIRONMENT: Development
@@ -38,21 +38,21 @@ services:
       - "5111:8080"
     volumes:
       - ./SharedModels:/src/SharedModels
-      - ./Users.API:/src/Users.API
-      - ./Users.Application:/src/Users.Application
-      - ./Users.Domain:/src/Users.Domain
-      - ./Users.Infrastructure:/src/Users.Infrastructure
-      - ./Users.Persistence:/src/Users.Persistence
-      - /src/Users.API/bin
-      - /src/Users.API/obj
-      - /src/Users.Application/bin
-      - /src/Users.Application/obj
-      - /src/Users.Domain/bin
-      - /src/Users.Domain/obj
-      - /src/Users.Infrastructure/bin
-      - /src/Users.Infrastructure/obj
-      - /src/Users.Persistence/bin
-      - /src/Users.Persistence/obj
+      - ./Users/Users.API:/src/Users/Users.API
+      - ./Users/Users.Application:/src/Users/Users.Application
+      - ./Users/Users.Domain:/src/Users/Users.Domain
+      - ./Users/Users.Infrastructure:/src/Users/Users.Infrastructure
+      - ./Users/Users.Persistence:/src/Users/Users.Persistence
+      - /src/Users/Users.API/bin
+      - /src/Users/Users.API/obj
+      - /src/Users/Users.Application/bin
+      - /src/Users/Users.Application/obj
+      - /src/Users/Users.Domain/bin
+      - /src/Users/Users.Domain/obj
+      - /src/Users/Users.Infrastructure/bin
+      - /src/Users/Users.Infrastructure/obj
+      - /src/Users/Users.Persistence/bin
+      - /src/Users/Users.Persistence/obj
       - /src/SharedModels/bin
       - /src/SharedModels/obj
       - users_nuget:/root/.nuget/packages
@@ -66,7 +66,7 @@ services:
   events-api:
     build:
       context: .
-      dockerfile: Events.API/Dockerfile.dev
+      dockerfile: Events/Events.API/Dockerfile.dev
     container_name: valetax-events-api-dev
     environment:
       ASPNETCORE_ENVIRONMENT: Development
@@ -84,21 +84,21 @@ services:
       - "5164:8080"
     volumes:
       - ./SharedModels:/src/SharedModels
-      - ./Events.API:/src/Events.API
-      - ./Events.Application:/src/Events.Application
-      - ./Events.Domain:/src/Events.Domain
-      - ./Events.Infrastructure:/src/Events.Infrastructure
-      - ./Events.Persistence:/src/Events.Persistence
-      - /src/Events.API/bin
-      - /src/Events.API/obj
-      - /src/Events.Application/bin
-      - /src/Events.Application/obj
-      - /src/Events.Domain/bin
-      - /src/Events.Domain/obj
-      - /src/Events.Infrastructure/bin
-      - /src/Events.Infrastructure/obj
-      - /src/Events.Persistence/bin
-      - /src/Events.Persistence/obj
+      - ./Events/Events.API:/src/Events/Events.API
+      - ./Events/Events.Application:/src/Events/Events.Application
+      - ./Events/Events.Domain:/src/Events/Events.Domain
+      - ./Events/Events.Infrastructure:/src/Events/Events.Infrastructure
+      - ./Events/Events.Persistence:/src/Events/Events.Persistence
+      - /src/Events/Events.API/bin
+      - /src/Events/Events.API/obj
+      - /src/Events/Events.Application/bin
+      - /src/Events/Events.Application/obj
+      - /src/Events/Events.Domain/bin
+      - /src/Events/Events.Domain/obj
+      - /src/Events/Events.Infrastructure/bin
+      - /src/Events/Events.Infrastructure/obj
+      - /src/Events/Events.Persistence/bin
+      - /src/Events/Events.Persistence/obj
       - /src/SharedModels/bin
       - /src/SharedModels/obj
       - events_nuget:/root/.nuget/packages
@@ -112,7 +112,7 @@ services:
   wallets-api:
     build:
       context: .
-      dockerfile: Wallets.API/Dockerfile.dev
+      dockerfile: Wallets/Wallets.API/Dockerfile.dev
     container_name: valetax-wallets-api-dev
     environment:
       ASPNETCORE_ENVIRONMENT: Development
@@ -127,21 +127,21 @@ services:
       - "5174:8080"
     volumes:
       - ./SharedModels:/src/SharedModels
-      - ./Wallets.API:/src/Wallets.API
-      - ./Wallets.Application:/src/Wallets.Application
-      - ./Wallets.Domain:/src/Wallets.Domain
-      - ./Wallets.Infrastructure:/src/Wallets.Infrastructure
-      - ./Wallets.Persistence:/src/Wallets.Persistence
-      - /src/Wallets.API/bin
-      - /src/Wallets.API/obj
-      - /src/Wallets.Application/bin
-      - /src/Wallets.Application/obj
-      - /src/Wallets.Domain/bin
-      - /src/Wallets.Domain/obj
-      - /src/Wallets.Infrastructure/bin
-      - /src/Wallets.Infrastructure/obj
-      - /src/Wallets.Persistence/bin
-      - /src/Wallets.Persistence/obj
+      - ./Wallets/Wallets.API:/src/Wallets/Wallets.API
+      - ./Wallets/Wallets.Application:/src/Wallets/Wallets.Application
+      - ./Wallets/Wallets.Domain:/src/Wallets/Wallets.Domain
+      - ./Wallets/Wallets.Infrastructure:/src/Wallets/Wallets.Infrastructure
+      - ./Wallets/Wallets.Persistence:/src/Wallets/Wallets.Persistence
+      - /src/Wallets/Wallets.API/bin
+      - /src/Wallets/Wallets.API/obj
+      - /src/Wallets/Wallets.Application/bin
+      - /src/Wallets/Wallets.Application/obj
+      - /src/Wallets/Wallets.Domain/bin
+      - /src/Wallets/Wallets.Domain/obj
+      - /src/Wallets/Wallets.Infrastructure/bin
+      - /src/Wallets/Wallets.Infrastructure/obj
+      - /src/Wallets/Wallets.Persistence/bin
+      - /src/Wallets/Wallets.Persistence/obj
       - /src/SharedModels/bin
       - /src/SharedModels/obj
       - wallets_nuget:/root/.nuget/packages

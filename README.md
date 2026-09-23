@@ -142,20 +142,20 @@ docker compose exec -T postgres psql -U postgres < docker/postgres/seed.sql
 ## Локальный запуск без полного Docker stack
 
 1. Поднимите только Postgres (из compose или свой инстанс на `5432` с теми же БД/учётками).
-2. Connection strings и URL соседних сервисов — в `*/API/appsettings.json` (`localhost` и порты из таблицы).
+2. Connection strings и URL соседних сервисов — в `Users/Users.API/appsettings.json` (и аналогично для Events/Wallets; `localhost` и порты из таблицы).
 3. В отдельных терминалах:
 
 ```bash
-dotnet run --project Users.API
-dotnet run --project Events.API
-dotnet run --project Wallets.API
+dotnet run --project Users/Users.API
+dotnet run --project Events/Events.API
+dotnet run --project Wallets/Wallets.API
 ```
 
 Сборка / тесты:
 
 ```bash
 dotnet build Valetax-test-task.slnx
-dotnet test Wallets.Application.Tests
+dotnet test Wallets/Wallets.Application.Tests
 ```
 
 ## Схема БД

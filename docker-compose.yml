@@ -20,7 +20,7 @@ services:
   users-api:
     build:
       context: .
-      dockerfile: Users.API/Dockerfile
+      dockerfile: Users/Users.API/Dockerfile
     container_name: valetax-users-api
     environment:
       ASPNETCORE_ENVIRONMENT: Development
@@ -44,7 +44,7 @@ services:
   events-api:
     build:
       context: .
-      dockerfile: Events.API/Dockerfile
+      dockerfile: Events/Events.API/Dockerfile
     container_name: valetax-events-api
     environment:
       ASPNETCORE_ENVIRONMENT: Development
@@ -68,7 +68,7 @@ services:
   wallets-api:
     build:
       context: .
-      dockerfile: Wallets.API/Dockerfile
+      dockerfile: Wallets/Wallets.API/Dockerfile
     container_name: valetax-wallets-api
     environment:
       ASPNETCORE_ENVIRONMENT: Development
