@@ -40,8 +40,15 @@ public sealed class MetricsLoggingHostedService : BackgroundService
 
         while (!stoppingToken.IsCancellationRequested)
         {
-            await Task.Delay(TimeSpan.FromSeconds(_options.LogIntervalSeconds), stoppingToken);
-            WriteSnapshot();
+            try
+            {
+                await Task.Delay(TimeSpan.FromSeconds(_options.LogIntervalSeconds), stoppingToken);
+                WriteSnapshot();
+            }
+            catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested)
+            {
+                break;
+            }
         }
     }
 

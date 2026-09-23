@@ -1,6 +1,0 @@
-@Valetax_test_task_HostAddress = http://localhost:5214
-
-GET {{Valetax_test_task_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

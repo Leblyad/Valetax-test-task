@@ -48,6 +48,8 @@ public sealed class OutboxProcessor(
 
         foreach (var message in messages)
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             try
             {
                 await DispatchAsync(walletsApiClient, message, cancellationToken);
@@ -55,7 +57,7 @@ public sealed class OutboxProcessor(
                 message.LastError = null;
                 ValetaxMeters.RecordOutboxProcessed("events", message.Type);
             }
-            catch (Exception ex)
+            catch (Exception ex) when (ex is not OperationCanceledException)
             {
                 message.AttemptCount++;
                 message.LastError = Truncate(ex.Message);
