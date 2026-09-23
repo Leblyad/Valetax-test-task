@@ -20,11 +20,12 @@ public class EventService(
             trackChanges: false,
             cancellationToken);
 
-        if (existing is null)
+        if (existing is not null)
         {
-            repositoryManager.Event.Create(mapper.Map<Event>(eventDto));
+            return existing.ExternalId;
         }
 
+        repositoryManager.Event.Create(mapper.Map<Event>(eventDto));
         repositoryManager.Outbox.Create(CreateProcessEventOutboxMessage(eventDto));
         await repositoryManager.SaveAsync(cancellationToken);
 
