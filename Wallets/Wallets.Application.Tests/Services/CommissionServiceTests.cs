@@ -35,6 +35,9 @@ public class CommissionServiceTests
 
         repositoryMock.Setup(x => x.Commission).Returns(commissionRepositoryMock.Object);
         repositoryMock.Setup(x => x.Wallet).Returns(walletRepositoryMock.Object);
+        repositoryMock
+            .Setup(x => x.ExecuteInTransactionAsync(It.IsAny<Func<CancellationToken, Task>>(), It.IsAny<CancellationToken>()))
+            .Returns<Func<CancellationToken, Task>, CancellationToken>(async (action, ct) => await action(ct));
 
         service = new CommissionService(
             repositoryMock.Object,
@@ -181,10 +184,10 @@ public class CommissionServiceTests
             ]);
 
         walletRepositoryMock
-            .Setup(x => x.GetByUserExternalIdAsync(partnerLevel1Id, true, It.IsAny<CancellationToken>()))
+            .Setup(x => x.GetByUserExternalIdAsync(partnerLevel1Id, false, It.IsAny<CancellationToken>()))
             .ReturnsAsync(walletLevel1);
         walletRepositoryMock
-            .Setup(x => x.GetByUserExternalIdAsync(partnerLevel2Id, true, It.IsAny<CancellationToken>()))
+            .Setup(x => x.GetByUserExternalIdAsync(partnerLevel2Id, false, It.IsAny<CancellationToken>()))
             .ReturnsAsync(walletLevel2);
 
         commissionRepositoryMock
@@ -208,11 +211,18 @@ public class CommissionServiceTests
         var level2 = Assert.Single(createdCommissions, c => c.Level == 2);
         Assert.Equal(20m, level2.Amount);
 
-        Assert.Equal(10m, walletLevel1.Balance);
-        Assert.Equal(25m, walletLevel2.Balance);
+        walletRepositoryMock.Verify(
+            x => x.IncrementBalanceAsync(partnerLevel1Id, 10m, It.IsAny<CancellationToken>()),
+            Times.Once);
+        walletRepositoryMock.Verify(
+            x => x.IncrementBalanceAsync(partnerLevel2Id, 20m, It.IsAny<CancellationToken>()),
+            Times.Once);
 
         commissionRepositoryMock.Verify(x => x.CreateRange(It.IsAny<IEnumerable<Commission>>()), Times.Once);
         repositoryMock.Verify(x => x.SaveAsync(It.IsAny<CancellationToken>()), Times.Once);
+        repositoryMock.Verify(
+            x => x.ExecuteInTransactionAsync(It.IsAny<Func<CancellationToken, Task>>(), It.IsAny<CancellationToken>()),
+            Times.Once);
     }
 
     [Fact]
@@ -253,7 +263,7 @@ public class CommissionServiceTests
             ]);
 
         walletRepositoryMock
-            .Setup(x => x.GetByUserExternalIdAsync(partnerId, true, It.IsAny<CancellationToken>()))
+            .Setup(x => x.GetByUserExternalIdAsync(partnerId, false, It.IsAny<CancellationToken>()))
             .ReturnsAsync(wallet);
 
         commissionRepositoryMock
@@ -267,7 +277,9 @@ public class CommissionServiceTests
         var commission = Assert.Single(createdCommissions!);
         Assert.Equal(50m, commission.Amount);
         Assert.Equal(SchemaType.Fibonacci, commission.SchemaType);
-        Assert.Equal(50m, wallet.Balance);
+        walletRepositoryMock.Verify(
+            x => x.IncrementBalanceAsync(partnerId, 50m, It.IsAny<CancellationToken>()),
+            Times.Once);
     }
 
     [Fact]
@@ -296,7 +308,7 @@ public class CommissionServiceTests
             ]);
 
         walletRepositoryMock
-            .Setup(x => x.GetByUserExternalIdAsync(partnerId, true, It.IsAny<CancellationToken>()))
+            .Setup(x => x.GetByUserExternalIdAsync(partnerId, false, It.IsAny<CancellationToken>()))
             .ReturnsAsync((Wallet?)null);
 
         var act = async () => await service.ProcessEventAsync(processEventDto);
@@ -308,6 +320,9 @@ public class CommissionServiceTests
         Assert.Equal(partnerId, exception.UserExternalId);
         Assert.Equal(WalletNotFoundException.ERROR_CODE, exception.Code);
         repositoryMock.Verify(x => x.SaveAsync(It.IsAny<CancellationToken>()), Times.Never);
+        repositoryMock.Verify(
+            x => x.ExecuteInTransactionAsync(It.IsAny<Func<CancellationToken, Task>>(), It.IsAny<CancellationToken>()),
+            Times.Never);
     }
 
     [Fact]
@@ -350,7 +365,7 @@ public class CommissionServiceTests
             ]);
 
         walletRepositoryMock
-            .Setup(x => x.GetByUserExternalIdAsync(validPartnerId, true, It.IsAny<CancellationToken>()))
+            .Setup(x => x.GetByUserExternalIdAsync(validPartnerId, false, It.IsAny<CancellationToken>()))
             .ReturnsAsync(validWallet);
 
         commissionRepositoryMock
@@ -366,7 +381,7 @@ public class CommissionServiceTests
         Assert.Equal(1, commission.Level);
 
         walletRepositoryMock.Verify(
-            x => x.GetByUserExternalIdAsync(invalidPartnerId, true, It.IsAny<CancellationToken>()),
+            x => x.GetByUserExternalIdAsync(invalidPartnerId, false, It.IsAny<CancellationToken>()),
             Times.Never);
     }
 

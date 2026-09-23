@@ -83,11 +83,13 @@ Healthchecks: стандартные встроенные
 
 ## Быстрый старт (Docker)
 
-Из корня репозитория:
+Из корня репозитория (по 2 инстанса каждого API за nginx LB):
 
 ```bash
-docker compose up --build
+docker compose up --build --scale users-api=2 --scale events-api=2 --scale wallets-api=2
 ```
+
+Без явного `--scale` поднимется по одному реплике каждого API — тоже через `gateway`.
 
 Дождитесь старта всех контейнеров. EF-миграции применяются автоматически при запуске API.
 
@@ -109,15 +111,18 @@ docker compose down -v
 docker compose -f docker-compose.dev.yml up --build
 ```
 
-Исходники монтируются в контейнеры, используется `dotnet watch`.
+Исходники монтируются в контейнеры, используется `dotnet watch`. Dev-стек без LB (по одному инстансу API на портах напрямую).
 
 ## Адреса
+
+Внешний вход — **nginx gateway** (round-robin по репликам сервиса). Межсервисные вызовы Users/Events/Wallets тоже идут через него.
 
 | Сервис   | HTTP                   | Swagger                              | Health                         |
 |----------|------------------------|--------------------------------------|--------------------------------|
 | Users    | http://localhost:5111  | http://localhost:5111/swagger        | http://localhost:5111/health   |
 | Events   | http://localhost:5164  | http://localhost:5164/swagger        | http://localhost:5164/health   |
 | Wallets  | http://localhost:5174  | http://localhost:5174/swagger        | http://localhost:5174/health   |
+| Gateway  | nginx в Docker         | конфиг: `docker/nginx/nginx.conf`    | —                              |
 | Postgres | localhost:5432         | user/password: `postgres` / `postgres` | —                            |
 
 Базы: `users_db`, `events_db`, `wallets_db` (создаются скриптом `docker/postgres/init.sql`).

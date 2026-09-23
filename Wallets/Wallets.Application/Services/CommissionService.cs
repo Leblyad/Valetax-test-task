@@ -45,8 +45,21 @@ public class CommissionService(
             return;
         }
 
-        repositoryManager.Commission.CreateRange(commissions);
-        await repositoryManager.SaveAsync(cancellationToken);
+        await repositoryManager.ExecuteInTransactionAsync(
+            async ct =>
+            {
+                repositoryManager.Commission.CreateRange(commissions);
+                await repositoryManager.SaveAsync(ct);
+
+                foreach (var commission in commissions)
+                {
+                    await repositoryManager.Wallet.IncrementBalanceAsync(
+                        commission.UserExternalId,
+                        commission.Amount,
+                        ct);
+                }
+            },
+            cancellationToken);
     }
 
     public async Task<IReadOnlyList<CommissionDto>> GetCommissionsByEventAsync(
@@ -73,7 +86,7 @@ public class CommissionService(
         {
             var wallet = await repositoryManager.Wallet.GetByUserExternalIdAsync(
                 relation.PartnerExternalId,
-                trackChanges: true,
+                trackChanges: false,
                 cancellationToken)
                 ?? throw new WalletNotFoundException(relation.PartnerExternalId);
 
@@ -86,8 +99,6 @@ public class CommissionService(
             {
                 continue;
             }
-
-            wallet.Balance += amount;
 
             commissions.Add(new Commission
             {

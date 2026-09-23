@@ -8,4 +8,9 @@ public interface IWalletRepository : IRepositoryBase<Wallet>
         Guid userExternalId,
         bool trackChanges,
         CancellationToken cancellationToken = default);
+
+    Task IncrementBalanceAsync(
+        Guid userExternalId,
+        decimal amount,
+        CancellationToken cancellationToken = default);
 }

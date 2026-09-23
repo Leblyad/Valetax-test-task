@@ -42,7 +42,20 @@ public class PartnerRelationService(
         var relations = PartnerRelationMaterializer.Materialize(
             user.ExternalId,
             partner.ExternalId,
-            partnerAncestors);
+            partnerAncestors).ToList();
+
+        var descendantLinks = await repositoryManager.PartnerRelation.GetReferralsByPartnerExternalIdAsync(
+            user.ExternalId,
+            trackChanges: false,
+            cancellationToken);
+
+        if (descendantLinks.Count > 0)
+        {
+            relations.AddRange(PartnerRelationMaterializer.MaterializeForDescendants(
+                descendantLinks,
+                partner.ExternalId,
+                partnerAncestors));
+        }
 
         repositoryManager.PartnerRelation.CreateRange(relations);
         await repositoryManager.SaveAsync(cancellationToken);
